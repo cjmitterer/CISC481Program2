@@ -1,3 +1,8 @@
+
+simplePuzzle = [[1, None, None, None],
+                [None, 2, None, None],
+                [None, 4, None, None],
+                [None, None, None, 3]]
 puzzleOne = [[7,    None, None, 4,    None, None, None, 8,    6],
              [None, 5,    1,    None, 8,    None, 4,    None, None],
              [None, 4,    None, 3,    None, 7,    None, 9,    None],
@@ -13,10 +18,32 @@ puzzleFour = None
 puzzleFive = None
 
 def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
 # 1
+
+fourxFourVariables = {
+    'C11': [1],
+    'C12': [1, 2, 3, 4],
+    'C13': [1, 2, 3, 4],
+    'C14': [1, 2, 3, 4],
+
+    'C21': [1, 2, 3, 4],
+    'C22': [2],
+    'C23': [1, 2, 3, 4],
+    'C24': [1, 2, 3, 4],
+
+    'C31': [1, 2, 3, 4],
+    'C32': [1, 2, 3, 4],
+    'C33': [3],
+    'C34': [1, 2, 3, 4],
+
+    'C41': [1, 2, 3, 4],
+    'C42': [1, 2, 3, 4],
+    'C43': [1, 2, 3, 4],
+    'C44': [4]
+}
+
 fourxFourConstraints = {
     ('C11', 'C12'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
     ('C11', 'C13'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
@@ -96,8 +123,20 @@ nineXNineConstraints = {
 }
 
 # 2 TODO
-def revise(CSP):
-    return None
+# May need to sort var1 and var2
+def revise(CSPv, CSPc, var1, var2):
+    found = []
+    removed = False
+    for i in CSPv[var1]:
+        for j in CSPv[var2]:
+            if [i, j] in CSPc[(var1, var2)]:
+                found.append[i]
+                break
+        if i not in found:
+            CSPv[var1].remove(i)
+            removed = True
+
+    return removed
 
 # 3 TODO
 def AC3(CSP):
@@ -114,4 +153,3 @@ def backTrackingSearch(CSP):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
