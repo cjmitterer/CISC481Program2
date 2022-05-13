@@ -1,3 +1,7 @@
+import ast
+
+#with open("sudoku-constraints.py") as constraints_file:
+#    csp = ast.literal_eval(constraints_file.read())
 
 simplePuzzle = [[1, None, None, None],
                 [None, 2, None, None],
@@ -18,11 +22,15 @@ puzzleFour = None
 puzzleFive = None
 
 def print_hi(name):
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    print(f'Hi, {name}')
+
+# Maybe use a class, we'll see
+class State:
+    counter = 0
 
 # 1
 
-fourxFourVariables = {
+fourxFourDomainPuzzle = {
     'C11': [1],
     'C12': [1, 2, 3, 4],
     'C13': [1, 2, 3, 4],
@@ -43,6 +51,7 @@ fourxFourVariables = {
     'C43': [1, 2, 3, 4],
     'C44': [4]
 }
+
 
 fourxFourConstraints = {
     ('C11', 'C12'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
@@ -124,32 +133,79 @@ nineXNineConstraints = {
 
 # 2 TODO
 # May need to sort var1 and var2
-def revise(CSPv, CSPc, var1, var2):
-    found = []
-    removed = False
-    for i in CSPv[var1]:
-        for j in CSPv[var2]:
-            if [i, j] in CSPc[(var1, var2)]:
-                found.append[i]
-                break
-        if i not in found:
-            CSPv[var1].remove(i)
-            removed = True
 
-    return removed
+# Inputs:
+#   domains: this is the list
+
+
+
+def helper(i, c1, c2, domain):
+    for j in domain:
+        if c1 is not None and [i, j] in c1 or c2 is not None and [i, j] in c2:
+            return True
+    return False
+
+# Uses list comprehension, iterate over a list easily
+
+def revise(constraints, domain, var1, var2):
+    initial = len(domain[var1])
+    c1 = constraints.get((var1, var2))
+    c2 = constraints.get((var2, var1))
+    domain[var1][:] = [i for i in domain[var1] if helper(i, c1, c2, domain[var2])] # Helper returns true or false, if true something doesn't
+    return initial != len(domain[var1]) # If size changes something got removed
+
+
+
+"""
+def revise(CSP, var1, var2):
+    values1 = [CSP[k] for k in CSP.keys() if k[0] == var1 or k[1] == var1]
+    values2 = [CSP[k] for k in CSP.keys() if k[0] == var2 or k[1] == var2]
+    for x in values1:
+        for y in values2:
+            if () and x != y:
+                revised = True
+                #remove x from values1
+                break
+"""
 
 # 3 TODO
-def AC3(CSP):
-    return None
+#BADDDD
+def AC3(domain, constraints):
+    arc = list(constraints)
+    while arc:
+        (xi, xj) = arc.pop(0)
+
+        if(revise(constraints, domain, xi, xj)):
+            if(len(domain[xi]) == 0):
+                return False
+        for xk in domain[xi]:######THIS IS WRONG FIND BETTER ROUTE
+            if xk != xi:
+                arc.append(xk, xi)
+
+        #if c1 is not None and [i, j] in c1 or c2 is not None and [i, j] in c2
+    return True
+
+
 
 # 4 TODO
-def minimumRemainingValues(CSP):
-    return None
+# ALSO BAD
+def minimumRemainingValues(domain, constraints, assignments):
+    currentMin = 10000000000
+    location = None
+    for x in domain:
+        if(len(x) < currentMax and len(x) > 1):
+            currentMax = len(x)
+            location = x
+    return location
 
 # 5 TODO
-def backTrackingSearch(CSP):
+
+def backTrackingSearch(domain, constraints, assignments):
     return None
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    print("Hellow World")
+   #print(fourxFourConstraints.get(('C11', 'C12')))
+    print(revise(fourxFourConstraints, fourxFourDomainPuzzle, 'C11', 'C12'))
