@@ -46,6 +46,8 @@ simplePuzzle = [[1, None, None, None],
                 [None, 2, None, None],
                 [None, None, 3, None],
                 [None, None, None, 4]]
+
+
 puzzleOne = [[7,    None, None, 4,    None, None, None, 8,    6],
              [None, 5,    1,    None, 8,    None, 4,    None, None],
              [None, 4,    None, 3,    None, 7,    None, 9,    None],

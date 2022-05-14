@@ -1,6 +1,7 @@
 import ast
 import sudoku_constraints
 import puzzles
+import copy
 
 from math import sqrt
 
@@ -10,14 +11,13 @@ def print_hi(name):
 
 
 
-# 1 TODO
+# 1
+# Located in sudoku_constraints and puzzles
 nineXNineConstraints = sudoku_constraints.nineXNineConstraints
 fourXFourConstraints = sudoku_constraints.fourXFourConstraints
 
-# 2 TODO
-# May need to sort var1 and var2
-
-
+# 2
+# Helper function used to
 def helper(i, c1, c2, domain):
     for j in domain:
         if c1 is not None and [i, j] in c1 or c2 is not None and [i, j] in c2:
@@ -27,7 +27,10 @@ def helper(i, c1, c2, domain):
 
 # Uses list comprehension, iterate over a list easily
 # Inputs:
-#   domains: this is the list
+#   constraints: the CSP constraints
+#   domains: this is the incomplete sudoko board
+#   var1: The value to be compared against var2 and be removed if its in var2
+#   var2: The value to be compared against var1 and if var2 has the same values in var1 will lose values
 def revise(constraints, domain, var1, var2):
     #print(domain)
     initial = len(domain[var1])
@@ -50,9 +53,15 @@ def revise(CSP, var1, var2):
                 break
 """
 
-# 3 TODO
-#BADDDD
-# If nothing in domain, just die
+# 3
+# AC3 function that checks for all the possible issues and calls revise based on the inputs
+# Inputs:
+#   constraints: the CSP constraints
+#   domains: this is the incomplete sudoko board
+# Output:
+# Boolean: indicating whether or not all variables have at least on value left in their domains
+# Effects:
+# calls revise and removes values from Xi that is in Xj
 def AC3(constraints, domain):
     arc = list(constraints)
     #print(arc)
@@ -73,8 +82,13 @@ def AC3(constraints, domain):
 
 
 
-# 4 TODO
-# ALSO BAD
+# 4
+# minimumRemainingValues function returns the fewest values in its domain among the unassigned variables in the CSP
+#   constraints: the CSP constraints, not used but used for consistency to represent the CSP
+#   domains: this is the incomplete sudoko board
+#   assignments: the list of values to be checked and based on
+# Returns:
+# location: the value that has the fewest remaining values
 def minimumRemainingValues(constraints, domain, assignments):
     currentMin = float("inf") #Some large number to be overwritten immeidately
     location = None
@@ -85,15 +99,17 @@ def minimumRemainingValues(constraints, domain, assignments):
             location = x
     return location
 
-# 5 TODO
+# 5
 
 def backTrackingSearch(constraints, domain, assignments = {}):
-    domainCopy = domain.copy()
+    #domainCopy = domain.copy()
+    domainCopy = copy.deepcopy(domain)
     if isWrong(constraints, domainCopy, assignments):
         return None
     if isComplete(constraints, domainCopy, assignments):
         return assignments
-    assignmentsBackup = assignments.copy()
+    #assignmentsBackup = assignments.copy()
+    assignmentsBackup = copy.deepcopy(assignments)
     print(assignmentsBackup)
     smallestVal = minimumRemainingValues(constraints, domainCopy, assignments)
     #print(smallestVal)
@@ -109,7 +125,13 @@ def backTrackingSearch(constraints, domain, assignments = {}):
 
     #return None #If reached it has failed
 
-# Helper
+# isComplete: Helper function that checks if the board is complete
+#   constraints: the CSP constraints, not used but used for consistency to represent the CSP
+#   domains: this is the incomplete sudoko board
+#   assignments: the list of values to be checked and based on
+# Returns:
+# False if it fails: the amount in domains is too large, checks the assignments against domains and
+# And if none of the Falses are checked it checks AC3 with the new copied assignments
 def isComplete(constraints, domain, assignments):
 
     if len(assignments) != len(domain):
@@ -121,12 +143,26 @@ def isComplete(constraints, domain, assignments):
     dummyassign = assignments.copy()
     return AC3(constraints, dummyassign) # If anything is removed it was not correct
 
+# isWrong: helper function that checks if there is inconsistencies, this is done so by calling
+# AC3 with the constraints and a copy of domain
+# Inputs:
+#   constraints: the CSP constraints, not used but used for consistency to represent the CSP
+#   domains: this is the incomplete sudoko board
+#   assignments: the list of values to be checked and based on
+# Returns:
+# reval: A boolean for whether there is a detected wrong and to then be used break out of the backtracking function
 def isWrong(constraints, domain, assignments):
     for x in assignments:
         domain[x] = assignments[x].copy()
     retval = not AC3(constraints, domain.copy())
     return retval
 
+# puzzleConverter: Converts a 2d array into a dictionary to be used as a domain for other functions
+# Inputs:
+# puzzleArray: simple 2d array of a possible where all empty spots are None
+# Outputs:
+# newPuzzleDict: a dictionary version of the 2d array where all None values are replaced with the max amount of numbers
+# and the keys are generated
 def puzzleConverter(puzzleArray):
     puzzlewidth = len(puzzleArray)
     unsolved = []
@@ -144,11 +180,18 @@ def puzzleConverter(puzzleArray):
 
     return newPuzzleDict
 
+# urlBoard: Function that converts the website URL to a 2d array
+# representing the given board state
+# Inputs:
+# urlBoard: generated as a string that is the size of the amount of cells with n representing null and the numbers
+# newBoard: 2d array conversion of the url string, this can then be converted to a dictionary and be used as a domain
+
 def urlToBoard(urlBoard):
     boardRowSize = sqrt(len(urlBoard))
     newBoard = [boardRowSize][boardRowSize]
     for i in range(urlBoard):
         newBoard[i/boardRowSize][i%boardRowSize] = urlBoard[i]
+    return newBoard
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -162,10 +205,9 @@ if __name__ == '__main__':
     #print(backTrackingSearch(fourxFourConstraints, fourxFourDomainPuzzleBroken))
 
 
-
     #print(fourxFourDomainPuzzle)
     #print(puzzleConverter(simplePuzzle))
     #print(backTrackingSearch(fourxFourConstraints, fourxFourDomainPuzzle))
     #print(backTrackingSearch(fourxFourConstraints, puzzleConverter(simplePuzzle)))
-    print(backTrackingSearch(fourXFourConstraints, puzzleConverter(puzzles.simplePuzzle)))
+    #print(backTrackingSearch(fourXFourConstraints, puzzleConverter(puzzles.simplePuzzle)))
     print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleOne)))
