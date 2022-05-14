@@ -1,163 +1,21 @@
 import ast
 import sudoku_constraints
+import puzzles
 
 from math import sqrt
 
-#with open("sudoku-constraints.py") as constraints_file:
- #  constraints_file:
-  #  csp = ast.literal_eval(constraints_file.read())
-
-simplePuzzle = [[1, None, None, None],
-                [None, 2, None, None],
-                [None, 4, None, None],
-                [None, None, None, 3]]
-puzzleOne = [[7,    None, None, 4,    None, None, None, 8,    6],
-             [None, 5,    1,    None, 8,    None, 4,    None, None],
-             [None, 4,    None, 3,    None, 7,    None, 9,    None],
-             [3,    None, 9,    None, None, 6,    1,    None, None],
-             [None, None, None, None, 2,    None, None, None, None],
-             [None, None, 4,    9,    None, None, 7,    None, 8],
-             [None, 8,    None, 1,    None, 2,    None, 6,    None],
-             [None, None, 6,    None, 5,    None, 9,    1,    None],
-             [2,    1,    None, None, None, 3,    None, None, 5]]
-puzzleTwo = None
-puzzleThree = None
-puzzleFour = None
-puzzleFive = None
 
 def print_hi(name):
     print(f'Hi, {name}')
 
 
-# 1
-
-fourxFourDomainPuzzle = {
-    'C11': [1],
-    'C12': [1, 2, 3, 4],
-    'C13': [1, 2, 3, 4],
-    'C14': [1, 2, 3, 4],
-
-    'C21': [1, 2, 3, 4],
-    'C22': [2],
-    'C23': [1, 2, 3, 4],
-    'C24': [1, 2, 3, 4],
-
-    'C31': [1, 2, 3, 4],
-    'C32': [1, 2, 3, 4],
-    'C33': [3],
-    'C34': [1, 2, 3, 4],
-
-    'C41': [1, 2, 3, 4],
-    'C42': [1, 2, 3, 4],
-    'C43': [1, 2, 3, 4],
-    'C44': [4]
-}
-
-fourxFourDomainPuzzleBroken = {
-    'C11': [1],
-    'C12': [1, 2, 3, 4],
-    'C13': [1, 2, 3, 4],
-    'C14': [1, 2, 3, 4],
-
-    'C21': [1, 2, 3, 4],
-    'C22': [2],
-    'C23': [1, 2, 3, 4],
-    'C24': [1, 2, 3, 4],
-
-    'C31': [1, 2, 3, 4],
-    'C32': [1, 2, 3, 4],
-    'C33': [3],
-    'C34': [1, 2, 3, 4],
-
-    'C41': [1, 2, 3, 4],
-    'C42': [1, 2, 3, 4],
-    'C43': [1, 2, 3, 4],
-    'C44': [4]
-}
-
-
-fourxFourConstraints = {
-    ('C11', 'C12'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C11', 'C13'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C11', 'C14'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C11', 'C21'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C11', 'C22'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C11', 'C31'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C11', 'C41'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C12', 'C13'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C12', 'C14'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C12', 'C21'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C12', 'C22'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C12', 'C32'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C12', 'C42'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C13', 'C14'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C13', 'C23'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C13', 'C24'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C13', 'C33'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C13', 'C43'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C14', 'C23'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C14', 'C24'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C14', 'C34'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C14', 'C44'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C21', 'C22'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C21', 'C23'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C21', 'C24'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C21', 'C31'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C21', 'C41'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C22', 'C23'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C22', 'C24'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C22', 'C32'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C22', 'C42'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C23', 'C24'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C23', 'C33'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C23', 'C43'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C24', 'C34'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C24', 'C44'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C31', 'C32'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C31', 'C33'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C31', 'C34'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C31', 'C41'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C31', 'C42'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C32', 'C33'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C32', 'C34'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C32', 'C41'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C32', 'C42'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C33', 'C34'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C33', 'C43'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C33', 'C44'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C34', 'C43'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C34', 'C44'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C41', 'C42'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C41', 'C43'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C41', 'C44'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C42', 'C43'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-    ('C42', 'C43'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]],
-
-    ('C43', 'C44'): [[1, 2], [1, 3], [1, 4], [2, 1], [2, 3], [2, 4], [3, 1], [3, 2], [3, 4], [4, 1], [4, 2], [4, 3]]
-}
 
 # 1 TODO
 nineXNineConstraints = sudoku_constraints.nineXNineConstraints
+fourXFourConstraints = sudoku_constraints.fourXFourConstraints
 
 # 2 TODO
 # May need to sort var1 and var2
-
-# Inputs:
-#   domains: this is the list
-
 
 
 def helper(i, c1, c2, domain):
@@ -166,8 +24,10 @@ def helper(i, c1, c2, domain):
             return True
     return False
 
-# Uses list comprehension, iterate over a list easily
 
+# Uses list comprehension, iterate over a list easily
+# Inputs:
+#   domains: this is the list
 def revise(constraints, domain, var1, var2):
     #print(domain)
     initial = len(domain[var1])
@@ -177,8 +37,6 @@ def revise(constraints, domain, var1, var2):
     c2 = constraints.get((var2, var1))
     domain[var1][:] = [i for i in domain[var1] if helper(i, c1, c2, domain[var2])] # Helper returns true or false, if true something doesn't
     return initial != len(domain[var1]) # If size changes something got removed
-
-
 
 """
 def revise(CSP, var1, var2):
@@ -236,11 +94,12 @@ def backTrackingSearch(constraints, domain, assignments = {}):
     if isComplete(constraints, domainCopy, assignments):
         return assignments
     assignmentsBackup = assignments.copy()
-
+    print(assignmentsBackup)
     smallestVal = minimumRemainingValues(constraints, domainCopy, assignments)
-
+    #print(smallestVal)
     for i in range(len(domainCopy[smallestVal])):
-        possibleCandidate = domain[smallestVal][i]
+        possibleCandidate = domainCopy[smallestVal][i]                                                          # Changed Domain Copy
+        #print(possibleCandidate)
         assignmentsBackup[smallestVal] = [possibleCandidate] # First function/expansion
 
         backTrackProgess = backTrackingSearch(constraints, domainCopy.copy(), assignmentsBackup)
@@ -265,7 +124,7 @@ def isComplete(constraints, domain, assignments):
 def isWrong(constraints, domain, assignments):
     for x in assignments:
         domain[x] = assignments[x].copy()
-    retval = not AC3(constraints, domain)
+    retval = not AC3(constraints, domain.copy())
     return retval
 
 def puzzleConverter(puzzleArray):
@@ -279,7 +138,7 @@ def puzzleConverter(puzzleArray):
         for j in range(puzzlewidth):
             builtKey = "C"+str(i+1)+str(j+1)
             if puzzleArray[i][j] is None:
-                newPuzzleDict[builtKey] = unsolved
+                newPuzzleDict[builtKey] = unsolved.copy() # Need .copy(
             else:
                 newPuzzleDict[builtKey] = [puzzleArray[i][j]]
 
@@ -300,5 +159,13 @@ if __name__ == '__main__':
     #print(AC3(fourxFourConstraints, fourxFourDomainPuzzleBroken))
     #print(minimumRemainingValues(fourxFourConstraints, fourxFourDomainPuzzle, ['C11']))
     #print(backTrackingSearch(fourxFourConstraints, fourxFourDomainPuzzle))
-    #print(len(nineXNineConstraints))
-    print(puzzleConverter(puzzleOne))
+    #print(backTrackingSearch(fourxFourConstraints, fourxFourDomainPuzzleBroken))
+
+
+
+    #print(fourxFourDomainPuzzle)
+    #print(puzzleConverter(simplePuzzle))
+    #print(backTrackingSearch(fourxFourConstraints, fourxFourDomainPuzzle))
+    #print(backTrackingSearch(fourxFourConstraints, puzzleConverter(simplePuzzle)))
+    print(backTrackingSearch(fourXFourConstraints, puzzleConverter(puzzles.simplePuzzle)))
+    print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleOne)))
