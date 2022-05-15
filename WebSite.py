@@ -43,7 +43,7 @@ def submit():
         #dictBoard = puzzleConverter(puzzles.puzzleOne)
 
         #print(len(nineXNineConstraints))
-        submittedSolution = backTrackingSearch(nineXNineConstraints, dictBoard)
+        submittedSolution, _ = backTrackingSearch(nineXNineConstraints, dictBoard)
 
         keys = []
         vals = []

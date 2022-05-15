@@ -1,3 +1,5 @@
+# RUN "WebSite".py" to get to the website
+
 import ast
 import sudoku_constraints
 import puzzles
@@ -102,14 +104,21 @@ def minimumRemainingValues(constraints, domain, assignments):
     return location
 
 # 5
-
+# backtracks through a provided sudoku board and finds a solution
+# Inputs:
+# constraints: simple constraints dictionary of acceptable inputs
+# domain: the board that is attempting to be solved
+# assignments: initially empty it is the growing list of potential board assignments
+# Outputs:
+# assignments: When complete it return a full dictionary of all the assignments made in order of being added
+# This can be used to get the order a board can be filled
 def backTrackingSearch(constraints, domain, assignments = {}):
     #domainCopy = domain.copy()
     domainCopy = copy.deepcopy(domain)
     if isWrong(constraints, domainCopy, assignments):
-        return None
+        return (None, None)
     if isComplete(constraints, domainCopy, assignments):
-        return assignments
+        return (assignments, [domainCopy])
     #assignmentsBackup = assignments.copy()
     assignmentsBackup = copy.deepcopy(assignments)
     #print(assignmentsBackup)
@@ -120,10 +129,11 @@ def backTrackingSearch(constraints, domain, assignments = {}):
         #print(possibleCandidate)
         assignmentsBackup[smallestVal] = [possibleCandidate] # First function/expansion
 
-        backTrackProgess = backTrackingSearch(constraints, domainCopy.copy(), assignmentsBackup)
+        backTrackProgess, domainList = backTrackingSearch(constraints, domainCopy.copy(), assignmentsBackup)
         if backTrackProgess is not None:
-            return backTrackProgess
-    return None
+            domainList.insert(0, domainCopy)
+            return (backTrackProgess, domainList)
+    return (None, None)
 
     #return None #If reached it has failed
 
@@ -186,6 +196,7 @@ def puzzleConverter(puzzleArray):
 # representing the given board state
 # Inputs:
 # urlBoard: generated as a string that is the size of the amount of cells with n representing null and the numbers
+# Outputs:
 # newBoard: 2d array conversion of the url string, this can then be converted to a dictionary and be used as a domain
 def urlToBoard(urlBoard):
     boardRowSize = int(sqrt(len(urlBoard)))
@@ -197,8 +208,14 @@ def urlToBoard(urlBoard):
             newBoard[i//boardRowSize][i%boardRowSize] = None
     return newBoard
 
+# Helper Function that prints the entire process of filling out a sudoko board when given a solved dictionary
+# Inputs:
+# A solved dictionary in order of when values were added
+# Returns:
+# Void
+# Effects:
+# Prints out each board state for all 81 cells
 def boardPrinter(boardLore):
-    #a = open('test.txt', )
     puzzleArray = [[0 for x in range(9)] for y in range(9)]
 
     for x in boardLore:
@@ -245,7 +262,7 @@ if __name__ == '__main__':
 
     #print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleThree)))
     #holder = backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleOne))
-    print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleOne))))
+    #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleOne))))
     #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleTwo))))
     #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleThree))))
     #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleFour))))
