@@ -21,7 +21,7 @@ fourXFourConstraints = sudoku_constraints.fourXFourConstraints
 
 
 # 2
-# Helper function used to
+# Helper function used to determine if values overlap in c1/c2
 def helper(i, c1, c2, domain):
     for j in domain:
         if c1 is not None and [i, j] in c1 or c2 is not None and [i, j] in c2:
@@ -35,6 +35,10 @@ def helper(i, c1, c2, domain):
 #   domains: this is the incomplete sudoko board
 #   var1: The value to be compared against var2 and be removed if its in var2
 #   var2: The value to be compared against var1 and if var2 has the same values in var1 will lose values
+# Output:
+# True or False based on whether something was removed in helpe
+# Effects:
+# Calls its helper method and it removesthe values from var1 to var2
 def revise(constraints, domain, var1, var2):
     #print(domain)
     initial = len(domain[var1])
@@ -212,7 +216,7 @@ def urlToBoard(urlBoard):
 # Inputs:
 # A solved dictionary in order of when values were added
 # Returns:
-# Void
+# Void/Nothing
 # Effects:
 # Prints out each board state for all 81 cells
 def boardPrinter(boardLore):
@@ -249,8 +253,8 @@ if __name__ == '__main__':
 
     #print(fourxFourDomainPuzzle)
     #print(puzzleConverter(simplePuzzle))
-    #print(backTrackingSearch(fourxFourConstraints, fourxFourDomainPuzzle))
-    #print(backTrackingSearch(fourxFourConstraints, puzzleConverter(simplePuzzle)))
+    #print(backTrackingSearch(fourxFourConstraints, puzzle.fourxFourDomainPuzzle))
+    #print(backTrackingSearch(fourxFourConstraints, puzzleConverter(puzzle.simplePuzzle)))
     #print(backTrackingSearch(fourXFourConstraints, puzzleConverter(puzzles.simplePuzzle)))
 
     #print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleTwo)))
@@ -260,11 +264,13 @@ if __name__ == '__main__':
 
 
 
-    #print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleThree)))
+    print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleThree)))
     #holder = backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleOne))
-    #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleOne))))
-    #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleTwo))))
-    #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleThree))))
-    #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleFour))))
-    #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleFive))))
+    print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleOne))))
+    print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleTwo))))
+    print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleThree))))
+    print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleFour))))
+    print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleFive))))
+
+#Puzzle 5 takes a bit, uncomment anything of these to test something if need be but trust me they work, enough
 

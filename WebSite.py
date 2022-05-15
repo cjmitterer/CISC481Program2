@@ -30,15 +30,16 @@ def index():
 @app.route('/submit')
 def submit():
     args = request.args
+    #Parses the board, solves it, and prepares it to be presented
     if "board" in args:
         board = args.get("board")
-        print(board)
+        #print(board)
 
         dictBoard = urlToBoard(board)
-        print(dictBoard)
+        #print(dictBoard)
 
         dictBoard = puzzleConverter(dictBoard)
-        print(dictBoard)
+        #print(dictBoard)
 
         #dictBoard = puzzleConverter(puzzles.puzzleOne)
 
@@ -50,11 +51,11 @@ def submit():
         for x in submittedSolution:
             keys.append(str(x[1:]))
             vals.append(str(submittedSolution[x][0]))
-        print(keys)
+        #print(keys)
 
-
+    # This return contains the values that will be passed it "DisplayPuzzle.html"
     return render_template('DisplayPuzzle.html', locations = keys, vals = vals)
 
 if __name__ == "__main__":
-    app.run(debug=True)
-    #app.run()
+    #app.run(debug=True)
+    app.run()
