@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script>
+    var boardLocs = [{{ ', '.join(locations) }}];
+    var boardVals = [{{ ', '.join(vals) }}];
+    console.log(boardLocs);
+    console.log(boardVals);
+
+    function displayBoard(){
+        var table = document.getElementById('board');
+        displayOne(table, 0)
+    }
+    function displayOne (t, i){
+        if(i >= boardLocs.length){
+            return;
+        }
+        setTimeout(function () {
+            row = (Math.floor(boardLocs[i] / 10)) - 1;
+            column = (boardLocs[i] % 10) - 1;
+            t.rows[row].cells[column].innerHTML = boardVals[i];
+            displayOne(t, i+1);
+        }, 200 )
+    }
+
+</script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Puzzle Solution</title>
+
+    <style>
+        table {
+            border: 3px solid black;
+            border-collapse: collapse;
+        }
+
+        tr {
+            padding: 0;
+        }
+
+        td {
+            width: 64px;
+            height: 64px;
+            padding: 0;
+            border: 1px solid gray;
+            text-align: center;
+            vertical-align: center;
+            font-size: 1.5em;
+        }
+
+        input {
+            font-size: 1em;
+            /*border: 0;*/
+        }
+
+        tr.box-bottom td {
+            border-bottom: 3px solid black;
+        }
+
+        td.box-side {
+            border-right: 3px solid black;
+        }
+
+
+
+        p {
+            font-size: 2rem;
+        }
+
+        button {
+            padding: 7px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+
+
+<body>
+
+    <button id="submit" onclick="displayBoard()">Display</button>
+
+    <table id = "board">
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr class="box-bottom">
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr class="box-bottom">
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td class="box-side"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+    </table>
+
+</body>
+
+
+</html>

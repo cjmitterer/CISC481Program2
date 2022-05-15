@@ -3,6 +3,7 @@ import sudoku_constraints
 import puzzles
 import copy
 
+
 from math import sqrt
 
 
@@ -15,6 +16,7 @@ def print_hi(name):
 # Located in sudoku_constraints and puzzles
 nineXNineConstraints = sudoku_constraints.nineXNineConstraints
 fourXFourConstraints = sudoku_constraints.fourXFourConstraints
+
 
 # 2
 # Helper function used to
@@ -110,7 +112,7 @@ def backTrackingSearch(constraints, domain, assignments = {}):
         return assignments
     #assignmentsBackup = assignments.copy()
     assignmentsBackup = copy.deepcopy(assignments)
-    print(assignmentsBackup)
+    #print(assignmentsBackup)
     smallestVal = minimumRemainingValues(constraints, domainCopy, assignments)
     #print(smallestVal)
     for i in range(len(domainCopy[smallestVal])):
@@ -185,13 +187,36 @@ def puzzleConverter(puzzleArray):
 # Inputs:
 # urlBoard: generated as a string that is the size of the amount of cells with n representing null and the numbers
 # newBoard: 2d array conversion of the url string, this can then be converted to a dictionary and be used as a domain
-
 def urlToBoard(urlBoard):
-    boardRowSize = sqrt(len(urlBoard))
-    newBoard = [boardRowSize][boardRowSize]
-    for i in range(urlBoard):
-        newBoard[i/boardRowSize][i%boardRowSize] = urlBoard[i]
+    boardRowSize = int(sqrt(len(urlBoard)))
+    newBoard = [[None]*boardRowSize for i in range(boardRowSize)]
+    for i in range(len(urlBoard)):
+        if(urlBoard[i] != "n"):
+            newBoard[i//boardRowSize][i%boardRowSize] = int(urlBoard[i])
+        else:
+            newBoard[i//boardRowSize][i%boardRowSize] = None
     return newBoard
+
+def boardPrinter(boardLore):
+    #a = open('test.txt', )
+    puzzleArray = [[0 for x in range(9)] for y in range(9)]
+
+    for x in boardLore:
+        xint = int(x[1])        # C27 - xint = 2
+        yint = int(x[2])
+        #print(xint+yint)
+        correctValue = boardLore[x]
+        correctValue = correctValue[0]
+        puzzleArray[xint-1][yint-1] = correctValue
+        #
+        for i in range(9):
+            for j in range(9):
+                if(j < 8):
+                    print(puzzleArray[i][j], end=" ")
+                else:
+                    print(puzzleArray[i][j])
+        print("")
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -210,4 +235,19 @@ if __name__ == '__main__':
     #print(backTrackingSearch(fourxFourConstraints, fourxFourDomainPuzzle))
     #print(backTrackingSearch(fourxFourConstraints, puzzleConverter(simplePuzzle)))
     #print(backTrackingSearch(fourXFourConstraints, puzzleConverter(puzzles.simplePuzzle)))
-    print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleOne)))
+
+    #print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleTwo)))
+    #print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleThree)))
+    #print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleFour)))
+    #print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleFive)))
+
+
+
+    #print(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleThree)))
+    #holder = backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleOne))
+    print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleOne))))
+    #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleTwo))))
+    #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleThree))))
+    #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleFour))))
+    #print(boardPrinter(backTrackingSearch(nineXNineConstraints, puzzleConverter(puzzles.puzzleFive))))
+
