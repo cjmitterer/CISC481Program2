@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns="" xmlns="">
+
+<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script> -->
+
+<script>
+    function parsetable(){
+
+
+        var table = document.getElementById('board');
+        for (var r = 0, n = table.rows.length; r < n; r++) {
+            for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
+                if(table.rows[r].cells[c].firstChild.value == ""){
+                    boardState = boardState+"n"
+                }
+                else{
+                    boardState = boardState+table.rows[r].cells[c].firstChild.value
+                }
+            }
+        }
+        //console.log(boardState);
+        window.open(boardState, '_self', false)
+    }
+
+
+    function printBoard(n) {
+        // Its hard coded, I know I could have made it dynamic but its 12:22 AM, and I'm so close to being done
+        var boardState = "/submit?board="
+        if(n == 1){
+            boardState= boardState+"7nn4nnn86n51n8n4nnn4n3n7n9n3n9nn61nnnnnn2nnnnnn49nn7n8n8n1n2n6nnn6n5n91n21nnn3nn5";
+        }else if(n == 2){
+            boardState= boardState+"1nn2n38nnn82n6n1nn7nnnn164n3nnn95n2nn7nnnnn1nn9n31nnn6n536nnnn1nn7n2n39nnn41n9nn5";
+        }else if(n == 3){
+            boardState= boardState+"1nn84nn5n5nn9nn8n37nnn6n1nnn1n5n2n3nn75nnn26nn3n6n9n4nnn7n5nnn64n1nn6nn7n6nn94nn2";
+        }else if(n == 4){
+            boardState= boardState+"1nn84nn5n5nn9nn8n37nnn6n1nnn1n5n2n3nn75nnn26nn3n6n9n4nnn7n5nnn64n1nn6nn7n6nn94nn2";
+        }else if(n == 5){
+            boardState= boardState+"nnnnn6n8n3nnnn27nn7n51nn6nnnn94nnnnnn8nn9nn2nnnnnn83nnnn4nn78n5nn28nnnn6n5n9nnnnn"
+        }
+        window.open(boardState, '_self', false)
+    }
+
+
+</script>
+
+<head>
+    <meta charset="utf-8">
+    <title>Some Sudoku Puzzles</title>
+    <style>
+        table {
+            border: 3px solid black;
+            border-collapse: collapse;
+        }
+
+        tr {
+            padding: 0;
+        }
+
+        td {
+            width: 64px;
+            height: 64px;
+            padding: 0;
+            border: 1px solid gray;
+            text-align: center;
+            vertical-align: center;
+            font-size: 1.5em;
+        }
+
+        input {
+            font-size: 1em;
+            /*border: 0;*/
+        }
+
+        tr.box-bottom td {
+            border-bottom: 3px solid black;
+        }
+
+        td.box-side {
+            border-right: 3px solid black;
+        }
+
+
+
+        p {
+            font-size: 2rem;
+        }
+
+        button {
+            padding: 7px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+<h1>Some Sudoku Puzzles</h1>
+<h2>Enter Puzzle</h2>
+<table id = "board">
+    <tr>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+    </tr>
+    <tr>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+    </tr>
+    <tr class="box-bottom">
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+</tr>
+    <tr>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+</tr>
+    <tr>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+    </tr>
+
+    <tr class="box-bottom">
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+    </tr>
+    <tr>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+    </tr>
+    <tr>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+    </tr>
+    <tr>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td class="box-side"><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+        <td><input type="text" size="1"></td>
+    </tr>
+</table>
+<div>
+    <p class="name">Input Sudoku Puzzle</p>
+    <button id="submit" onclick="parsetable()">Submit</button>
+
+    <button id="p1" onclick="printBoard(1)">Puzzle 1</button>
+    <button id="p2" onclick="printBoard(2)">Puzzle 2</button>
+    <button id="p3" onclick="printBoard(3)">Puzzle 3</button>
+    <button id="p4" onclick="printBoard(4)">Puzzle 4</button>
+    <button id="p5" onclick="printBoard(5)">Puzzle 5</button>
+</div>
+<pre id="sudoku"></pre>
+</body>
+</html>
